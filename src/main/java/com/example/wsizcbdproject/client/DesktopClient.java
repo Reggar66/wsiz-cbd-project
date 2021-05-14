@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class DesktopClient extends Application {
 
@@ -80,9 +81,11 @@ public class DesktopClient extends Application {
         // Adding elements to Main Vertical Box
         vBox.getChildren().addAll(topControls, tableView);
 
-        // Setup listener for refresh button
+        // Setup listeners for action buttons
         buttonRefresh.setOnAction(new OnRefreshClickListener());
         buttonDelete.setOnAction(new OnDeleteClickListener());
+        buttonAdd.setOnAction(new OnAddClickListener());
+        buttonUpdate.setOnAction(new OnUpdateClickListener());
 
         // Creating scene and adding our Main Vertical Box
         Scene scene = new Scene(vBox);
@@ -109,6 +112,32 @@ public class DesktopClient extends Application {
 
         Optional<ButtonType> result = alert.showAndWait();
         return result.get() == ButtonType.OK;
+    }
+
+    private boolean addItemDialog() {
+        ItemDialog itemDialog = new ItemDialog();
+        Optional<Item> result = itemDialog.showAndWait();
+
+        result.ifPresent(item -> {
+            clientRestHelper.addItem(item);
+            refreshItems();
+        });
+
+        return result.isPresent();
+    }
+
+    private void updateItemDialog(Item item) {
+        if (item == null)
+            return;
+
+        ItemDialog itemDialog = new ItemDialog(item);
+
+        Optional<Item> result = itemDialog.showAndWait();
+
+        result.ifPresent(updatedItem -> {
+            clientRestHelper.updateItem(updatedItem);
+            refreshItems();
+        });
     }
 
     /**
@@ -159,6 +188,27 @@ public class DesktopClient extends Application {
                 System.out.println(msg);
                 refreshItems();
             }
+        }
+    }
+
+    /**
+     * Inner class for handling click events on add button.
+     */
+    private class OnAddClickListener implements EventHandler<ActionEvent> {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            addItemDialog();
+        }
+    }
+
+    /**
+     * Inner class for handling click events on update button.
+     */
+    private class OnUpdateClickListener implements EventHandler<ActionEvent> {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+            Item item = tableView.getSelectionModel().getSelectedItem();
+            updateItemDialog(item);
         }
     }
 }

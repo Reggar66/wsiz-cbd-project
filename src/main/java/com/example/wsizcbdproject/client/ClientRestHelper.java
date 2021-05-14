@@ -35,4 +35,20 @@ public class ClientRestHelper {
 
         return "Deleted item: " + item.toString();
     }
+
+    public void addItem(Item item) {
+        if (item == null)
+            return;
+
+        String uri = "http://localhost:8080/api/items/";
+        restTemplate.postForObject(uri, item, Item.class);
+    }
+
+    public void updateItem(Item item) {
+        if (item == null)
+            return;
+
+        String uri = "http://localhost:8080/api/items/";
+        restTemplate.put(uri, item);
+    }
 }
