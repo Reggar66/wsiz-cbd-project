@@ -1,5 +1,6 @@
 package com.example.wsizcbdproject;
 
+import com.example.wsizcbdproject.client.DesktopClient;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +18,6 @@ public class WsizCbdProjectApplication implements CommandLineRunner {
         DesktopClient desktopClient = new DesktopClient();
         desktopClient
                 .printItemList()
-                .launchWindow();
+                .launchClient();
     }
 }
