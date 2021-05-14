@@ -40,4 +40,9 @@ public class ItemServiceImpl implements ItemsService {
     public void deleteById(int id) {
         itemRepository.deleteById(id);
     }
+
+    @Override
+    public List<Item> findAllByOrderByNameAsc() {
+        return itemRepository.findAllByOrderByNameAsc();
+    }
 }

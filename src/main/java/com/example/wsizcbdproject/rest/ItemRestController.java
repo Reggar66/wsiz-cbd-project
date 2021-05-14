@@ -20,7 +20,7 @@ public class ItemRestController {
 
     @GetMapping("/items")
     public List<Item> findAll() {
-        return itemsService.findAll();
+        return itemsService.findAllByOrderByNameAsc();
     }
 
     @GetMapping("/items/{itemId}")

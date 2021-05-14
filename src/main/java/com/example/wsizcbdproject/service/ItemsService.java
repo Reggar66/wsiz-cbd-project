@@ -12,4 +12,6 @@ public interface ItemsService {
     void save(Item item);
 
     void deleteById(int id);
+
+    List<Item> findAllByOrderByNameAsc();
 }
